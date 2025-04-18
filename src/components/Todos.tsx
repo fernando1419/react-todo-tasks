@@ -1,7 +1,13 @@
 import { type TODO } from "../types";
 import Todo from "./Todo";
 
-export default function Todos({ todos }: { todos: TODO[] }) {
+interface TodosProps {
+  todos: TODO[];
+  // eslint-disable-next-line no-unused-vars
+  onRemoveTodo: (id: number) => void;
+}
+
+export default function Todos({ todos, onRemoveTodo }: TodosProps) {
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
@@ -11,6 +17,7 @@ export default function Todos({ todos }: { todos: TODO[] }) {
             title={todo.title}
             id={todo.id}
             isCompleted={todo.isCompleted}
+            onRemoveTodo={onRemoveTodo}
           />
         </li>
       ))}

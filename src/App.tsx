@@ -10,10 +10,17 @@ const fakeTodos: TODO[] = [
 ];
 
 function App() {
-  const [todos] = useState(fakeTodos);
+  const [todos, setTodos] = useState(fakeTodos);
+
+  const handleDeleteTodo = (id: number) => {
+    console.log({ id });
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="todoapp">
-      <Todos todos={todos} />
+      <Todos todos={todos} onRemoveTodo={handleDeleteTodo} />
     </div>
   );
 }

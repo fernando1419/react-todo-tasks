@@ -1,8 +1,20 @@
-import { type TODO } from "../types";
+interface TodoProps {
+  id: number;
+  title: string;
+  isCompleted: boolean;
 
-export default function Todo({ id, title, isCompleted }: TODO) {
+  // eslint-disable-next-line no-unused-vars
+  onRemoveTodo: (id: number) => void;
+}
+
+export default function Todo({
+  id,
+  title,
+  isCompleted,
+  onRemoveTodo,
+}: TodoProps) {
   return (
-    <>
+    <div className="view">
       {/* <label htmlFor={`${id}`}>Task: </label> */}
       <input
         id={`${id}`}
@@ -12,6 +24,11 @@ export default function Todo({ id, title, isCompleted }: TODO) {
         onChange={() => {}}
       />
       <label>{title}</label>
-    </>
+      <button
+        className="destroy"
+        style={{ height: "32px" }}
+        onClick={() => onRemoveTodo(id)}
+      ></button>
+    </div>
   );
 }
