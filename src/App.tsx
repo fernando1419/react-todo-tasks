@@ -45,6 +45,11 @@ function App() {
   const activeCount = todos.filter((todo) => !todo.isCompleted).length;
   const completedCount = todos.length - activeCount;
 
+  const handleClearAllCompleted = (): void => {
+    const newTodos = todos.filter((todo) => !todo.isCompleted);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="todoapp">
       <Todos todos={filterTodos} onRemoveTodo={handleDeleteTodo} onToggleCompleteTodo={handleCompleted} />
@@ -54,6 +59,7 @@ function App() {
         completedCount={completedCount}
         filterSelected={filterSelected}
         handleFilterChange={handleFilterChange}
+        onClearCompleted={handleClearAllCompleted}
       />
     </div>
   );
