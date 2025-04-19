@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 import Todos from "./components/Todos";
 import { FILTER_TYPES } from "./consts";
 import { type TODO } from "./types";
@@ -50,10 +51,15 @@ function App() {
     setTodos(newTodos);
   };
 
+  const handleAddTodo = (title: string): void => {
+    const newTodo = { id: Date.now(), title, isCompleted: false };
+    setTodos([...todos, newTodo]);
+  };
+
   return (
     <div className="todoapp">
+      <Header onAddTodo={handleAddTodo} />
       <Todos todos={filterTodos} onRemoveTodo={handleDeleteTodo} onToggleCompleteTodo={handleCompleted} />
-
       <Footer
         activeCount={activeCount}
         completedCount={completedCount}
