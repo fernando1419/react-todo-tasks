@@ -7,41 +7,26 @@ interface TodoProps {
   title: string;
   isCompleted: boolean;
   onRemoveTodo: (id: number) => void;
-  onToggleCompleteTodo: ({
-    id,
-    isCompleted,
-  }: Pick<TODO, "id" | "isCompleted">) => void;
+  onToggleCompleteTodo: ({ id, isCompleted }: Pick<TODO, "id" | "isCompleted">) => void;
 }
 
-export default function Todo({
-  id,
-  title,
-  isCompleted,
-  onRemoveTodo,
-  onToggleCompleteTodo,
-}: TodoProps) {
-  const handleChangeCheckbox = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+export default function Todo({ id, title, isCompleted, onRemoveTodo, onToggleCompleteTodo }: TodoProps) {
+  const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>): void => {
     onToggleCompleteTodo({ id, isCompleted: event?.target.checked });
   };
 
   return (
     <div className="view">
-      {/* <label htmlFor={`${id}`}>Task: </label> */}
-      <input
+      { /* prettier-ignore */}
+      <input 
         id={`${id}`}
         className="toggle"
         type="checkbox"
         checked={isCompleted}
-        onChange={handleChangeCheckbox}
+        onChange={handleChangeCheckbox} 
       />
       <label htmlFor={`${id}`}>{title}</label>
-      <button
-        className="destroy"
-        style={{ height: "32px" }}
-        onClick={() => onRemoveTodo(id)}
-      ></button>
+      <button className="destroy" style={{ height: "32px" }} onClick={() => onRemoveTodo(id)}></button>
     </div>
   );
 }
