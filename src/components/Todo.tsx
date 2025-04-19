@@ -1,10 +1,16 @@
+/* eslint-disable no-unused-vars */
+import React from "react";
+import { type TODO } from "../types";
+
 interface TodoProps {
   id: number;
   title: string;
   isCompleted: boolean;
-
-  // eslint-disable-next-line no-unused-vars
   onRemoveTodo: (id: number) => void;
+  onToggleCompleteTodo: ({
+    id,
+    isCompleted,
+  }: Pick<TODO, "id" | "isCompleted">) => void;
 }
 
 export default function Todo({
@@ -12,7 +18,14 @@ export default function Todo({
   title,
   isCompleted,
   onRemoveTodo,
+  onToggleCompleteTodo,
 }: TodoProps) {
+  const handleChangeCheckbox = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    onToggleCompleteTodo({ id, isCompleted: event?.target.checked });
+  };
+
   return (
     <div className="view">
       {/* <label htmlFor={`${id}`}>Task: </label> */}
@@ -21,9 +34,9 @@ export default function Todo({
         className="toggle"
         type="checkbox"
         checked={isCompleted}
-        onChange={() => {}}
+        onChange={handleChangeCheckbox}
       />
-      <label>{title}</label>
+      <label htmlFor={`${id}`}>{title}</label>
       <button
         className="destroy"
         style={{ height: "32px" }}

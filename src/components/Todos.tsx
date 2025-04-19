@@ -1,13 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { type TODO } from "../types";
 import Todo from "./Todo";
 
 interface TodosProps {
   todos: TODO[];
-  // eslint-disable-next-line no-unused-vars
   onRemoveTodo: (id: number) => void;
+  onToggleCompleteTodo: ({
+    id,
+    isCompleted,
+  }: Pick<TODO, "id" | "isCompleted">) => void;
 }
 
-export default function Todos({ todos, onRemoveTodo }: TodosProps) {
+export default function Todos({
+  todos,
+  onRemoveTodo,
+  onToggleCompleteTodo,
+}: TodosProps) {
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
@@ -18,6 +26,7 @@ export default function Todos({ todos, onRemoveTodo }: TodosProps) {
             id={todo.id}
             isCompleted={todo.isCompleted}
             onRemoveTodo={onRemoveTodo}
+            onToggleCompleteTodo={onToggleCompleteTodo}
           />
         </li>
       ))}
