@@ -13,7 +13,7 @@ const fakeTodos: TODO[] = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(fakeTodos);
+  const [todos, setTodos] = useState<TODO[]>(fakeTodos);
   const [filterSelected, setFilterSelected] = useState<FILTER_TYPES>(FILTER_TYPES.ALL);
 
   const handleDeleteTodo = (id: number) => {
