@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { fetchTodos, initialData, saveTodos } from "./api";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Spinner from "./components/shared/Spinner";
 import Todos from "./components/Todos";
 import { FILTER_TYPES } from "./consts";
+import { initialData } from "./data/fakeData";
+import { createTodoStorage } from "./services/TodoStorageFactory";
 import { type TODO } from "./types";
+
+const todoStorage = createTodoStorage();
 
 function App() {
   const [todos, setTodos] = useState<TODO[]>([]);
@@ -14,7 +17,8 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetchTodos()
+    todoStorage
+      .fetchTodos()
       .then((todos) => {
         setTodos(todos);
         setLoading(false);
@@ -25,14 +29,14 @@ function App() {
       });
   }, []);
 
-  const handleDeleteTodo = async (id: number): Promise<void> => {
+  const handleDeleteTodo = (id: number): void => {
     // console.log({ id });
     const newTodos = todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
-    await saveTodos(newTodos);
+    todoStorage.saveTodos(newTodos);
   };
 
-  const handleCompleted = async ({ id, isCompleted }: Pick<TODO, "id" | "isCompleted">): Promise<void> => {
+  const handleCompleted = ({ id, isCompleted }: Pick<TODO, "id" | "isCompleted">): void => {
     // console.log({ id, isCompleted });
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -41,7 +45,7 @@ function App() {
       return todo;
     });
     setTodos(newTodos);
-    await saveTodos(newTodos);
+    todoStorage.saveTodos(newTodos);
   };
 
   const handleFilterChange = (filter: FILTER_TYPES): void => {
@@ -57,23 +61,23 @@ function App() {
   const activeCount = todos.filter((todo) => !todo.isCompleted).length;
   const completedCount = todos.length - activeCount;
 
-  const handleClearAllCompleted = async (): Promise<void> => {
+  const handleClearAllCompleted = (): void => {
     const newTodos = todos.filter((todo) => !todo.isCompleted);
     // console.log({ newTodos });
     setTodos(newTodos);
-    await saveTodos(newTodos);
+    todoStorage.saveTodos(newTodos);
   };
 
-  const handleAddTodo = async (title: string): Promise<void> => {
+  const handleAddTodo = (title: string): void => {
     const newTodo = { id: Date.now(), title, isCompleted: false };
     const updatedTodos = [...todos, newTodo];
     setTodos(updatedTodos);
-    await saveTodos(updatedTodos);
+    todoStorage.saveTodos(updatedTodos);
   };
 
-  const handleImportDummyData = async (): Promise<void> => {
+  const handleImportDummyData = (): void => {
     setTodos(initialData);
-    await saveTodos(initialData);
+    todoStorage.saveTodos(initialData);
   };
 
   return (
